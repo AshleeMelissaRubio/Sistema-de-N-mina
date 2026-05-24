@@ -1,15 +1,19 @@
 package com.nomina.model;
 
-import com.nomina.exceptions.ValidacionNominaException;
+import java.time.LocalDate;
+
+import com.nomina.exception.ValidacionNominaException;
 
 public class empleado_porhoras extends empleado {
     private int horasTrabajadas;
     private double tarifaBaseHora;
     private boolean aceptaFondoAhorro;
 
-    public empleado_porhoras(int id, String nombre, String tipoEmpleado, int antiguedadAnios, int horasTrabajadas,
-            double tarifaBaseHora, boolean aceptaFondoAhorro) {
-        super(id, nombre, tipoEmpleado, antiguedadAnios);
+    
+
+    public empleado_porhoras(int id, String nombre, LocalDate fechaIngreso, int horasTrabajadas, double tarifaBaseHora,
+        boolean aceptaFondoAhorro) {
+        super(id, nombre, fechaIngreso);
 
         if (horasTrabajadas < 0) {
             throw new ValidacionNominaException("Las horas trabajadas no pueden ser negativas");
@@ -24,7 +28,7 @@ public class empleado_porhoras extends empleado {
     public double calcularBeneficios() {
         double beneficios = 0;
 
-        if (getAntiguedadAnios() > 1 && aceptaFondoAhorro) {
+        if (getAniosEnEmpresa() > 1 && aceptaFondoAhorro) {
             beneficios += calcularSalarioBruto() * 0.02;
         }
         return beneficios;

@@ -1,15 +1,17 @@
 package com.nomina.model;
 
-import com.nomina.exceptions.ValidacionNominaException;
+import java.time.LocalDate;
+
+import com.nomina.exception.ValidacionNominaException;
 
 public class empleado_porcomision extends empleado{
     private double salarioBase;
     private double ventasRealizadas;
     private double porcentajeComision;
 
-    public empleado_porcomision(int id, String nombre, String tipoEmpleado, int antiguedadAnios, double salarioBase,
+    public empleado_porcomision(int id, String nombre, LocalDate fechaIngreso, double salarioBase,
             double ventasRealizadas, double porcentajeComision) {
-        super(id, nombre, tipoEmpleado, antiguedadAnios);
+        super(id, nombre, fechaIngreso);
 
         if (ventasRealizadas < 0) {
             throw new ValidacionNominaException("Las ventas de un empleado por comisión no pueden ser menores a 0");

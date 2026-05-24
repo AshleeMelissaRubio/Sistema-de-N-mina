@@ -1,31 +1,46 @@
 package com.nomina.model;
 
+import java.time.LocalDate;
+import java.time.Period;
+
 public abstract class empleado {
     private int id;
     private String nombre;
-    private String tipoEmpleado;
-    private int antiguedadAnios;
-
-    public empleado(int id, String nombre, String tipoEmpleado, int antiguedadAnios) {
+    private LocalDate fechaIngreso;
+    
+    public empleado(int id, String nombre, LocalDate fechaIngreso) {
         this.id = id;
         this.nombre = nombre;
-        this.tipoEmpleado = tipoEmpleado;
-        this.antiguedadAnios = antiguedadAnios;
+        this.fechaIngreso = fechaIngreso;
     }
-    
-    // Métodos abstractos que CADA tipo de empleado calculará a su manera
+
+    public int getAniosEnEmpresa() {
+        return Period.between(fechaIngreso, LocalDate.now()).getYears();
+    }
+
+    // Métodos abstractos que cada tipo de empleado calculará a su manera
     public abstract double calcularSalarioBruto();
     public abstract double calcularBeneficios();
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    //Getters and setters
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+    public String getNombre() {
+        return nombre;
+    }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    public LocalDate getFechaIngreso() {
+        return fechaIngreso;
+    }
+    public void setFechaIngreso(LocalDate fechaIngreso) {
+        this.fechaIngreso = fechaIngreso;
+    }
 
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
-
-    public String getTipoEmpleado() { return tipoEmpleado; }
-    public void setTipoEmpleado(String tipoEmpleado) { this.tipoEmpleado = tipoEmpleado; }
-
-    public int getAntiguedadAnios() { return antiguedadAnios; }
-    public void setAntiguedadAnios(int antiguedadAnios) { this.antiguedadAnios = antiguedadAnios; }
+    
 }

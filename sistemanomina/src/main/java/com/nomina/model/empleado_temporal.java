@@ -1,11 +1,12 @@
 package com.nomina.model;
 
+import java.time.LocalDate;
+
 public class empleado_temporal extends empleado{
     private double salarioFijoMensual;
 
-    public empleado_temporal(int id, String nombre, String tipoEmpleado, int antiguedadAnios,
-            double salarioFijoMensual) {
-        super(id, nombre, tipoEmpleado, antiguedadAnios);
+    public empleado_temporal(int id, String nombre, LocalDate fechaIngreso, double salarioFijoMensual) {
+        super(id, nombre, fechaIngreso);
         this.salarioFijoMensual = salarioFijoMensual;
     }
 
@@ -20,6 +21,7 @@ public class empleado_temporal extends empleado{
         return this.salarioFijoMensual;
     }
 
+    //Getters and setters
     public double getSalarioFijoMensual() {
         return salarioFijoMensual;
     }
