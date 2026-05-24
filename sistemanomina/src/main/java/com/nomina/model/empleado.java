@@ -22,6 +22,22 @@ public abstract class empleado {
     public abstract double calcularSalarioBruto();
     public abstract double calcularBeneficios();
 
+    public double calcularDeducciones() {
+        double salarioBruto = calcularSalarioBruto();
+        double saludYPension = salarioBruto * 0.04;
+        double arl = calcularARL();
+        return saludYPension + arl;
+    }
+
+    public double calcularSalarioNeto() {
+        double neto = calcularDeducciones() * calcularBeneficios() - calcularDeducciones();
+        return Math.max(neto, 0);
+    }
+
+    protected double  calcularARL() {
+        return calcularDeducciones() * 0.00522;
+    }
+
     //Getters and setters
     public int getId() {
         return id;
