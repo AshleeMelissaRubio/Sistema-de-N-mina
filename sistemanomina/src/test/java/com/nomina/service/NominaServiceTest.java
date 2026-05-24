@@ -1,8 +1,7 @@
-package org.nomina.service;
+package com.nomina.service;
 
-import org.nomina.model.*;
-import org.nomina.exception.ValidacionNominaException;
-import org.nomina.exception.DatoNegativoException;
+import com.nomina.model.*;
+import com.nomina.exception.DatoNegativoException;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -11,12 +10,12 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class NominaServiceTest {
-    @Test
+    @Test 
     @DisplayName("Debería calcular salario bruto con Bono de Antigüedad (> 5 años) para Asalariado")
     public void testEmpleadoAsalariadoConBonoAntiguedad() {
         // Configuración: Empleado con fecha de ingreso de hace 6 años (Sueldo: $3.000.000)
         LocalDate fechaHaceSeisAnios = LocalDate.now().minusYears(6);
-        EmpleadoAsalariado emp = new EmpleadoAsalariado(1, "Carlos Mendoza", fechaHaceSeisAnios, 3000000.0);
+        empleado_asalariado emp = new empleado_asalariado(1, "Ashlee Rubio", fechaHaceSeisAnios, 3000000.0);
 
         // Bruto esperado: Base ($3.000.000) + Bono 10% ($300.000) = $3.300.000
         double brutoEsperado = 3300000.0;
@@ -33,7 +32,7 @@ public class NominaServiceTest {
     public void testEmpleadoPorHorasConRecargoExtra() {
         // Configuración: Tarifa $20.000, laboró 45 horas (5 horas extras)
         // Matemáticas: (40 * 20.000) + (5 * 20.000 * 1.5) = 800.000 + 150.000 = 950.000
-        EmpleadoPorHoras emp = new EmpleadoPorHoras(2, "Andrés Silva", LocalDate.now(), 20000.0, 45, false);
+        empleado_porhoras emp = new empleado_porhoras(2, "Andrés Silva", LocalDate.now(), 45, 20000.0, false);
 
         assertEquals(950000.0, emp.calcularSalarioBruto(), 0.01,
                 "La ecuación de liquidación de horas extras con recargo de 1.5 falló.");
@@ -44,7 +43,7 @@ public class NominaServiceTest {
     public void testEmpleadoPorHorasConFondoAhorro() {
         // Configuración: Más de 1 año de antigüedad (hace 2 años) y aceptaFondoAhorro = true
         LocalDate fechaHaceDosAnios = LocalDate.now().minusYears(2);
-        EmpleadoPorHoras emp = new EmpleadoPorHoras(3, "María Ortega", fechaHaceDosAnios, 10000.0, 40, true);
+        empleado_porhoras emp = new empleado_porhoras(3, "María Ortega", fechaHaceDosAnios, 40, 10000.0, true);
 
         // Bruto: 40 * 10.000 = 400.000. Beneficio Fondo: 400.000 * 0.02 = 8.000
         double beneficioEsperado = 8000.0;
@@ -57,7 +56,7 @@ public class NominaServiceTest {
     public void testEmpleadoComisionConBonoVentasMasivas() {
         // Configuración: Base $1.500.000, Comisión 5%, Ventas $25.000.000 (Supera los $20M)
         // Matemáticas: Base (1.500.000) + Comisión (25M * 5% = 1.250.000) + Bono Extra (25M * 3% = 750.000) = 3.500.000
-        EmpleadoComision emp = new EmpleadoComision(4, "Diana Diana", LocalDate.now(), 1500000.0, 5.0, 25000000.0);
+        empleado_porcomision emp = new empleado_porcomision(4, "Diana Diana", LocalDate.now(), 1500000.0, 5.0, 25000000.0);
 
         assertEquals(3500000.0, emp.calcularSalarioBruto(), 0.01,
                 "El bono de incentivo del 3% sobre el total de ventas superiores a $20M no se aplicó.");
@@ -66,7 +65,7 @@ public class NominaServiceTest {
     @Test
     @DisplayName("Debería retornar cero beneficios para Empleados Temporales")
     public void testEmpleadoTemporalSinBeneficios() {
-        EmpleadoTemporal emp = new EmpleadoTemporal(5, "Jorge Ruiz", LocalDate.now(), 2000000.0);
+        empleado_temporal emp = new empleado_temporal(5, "Jorge Ruiz", LocalDate.now(), 2000000.0);
 
         assertEquals(2000000.0, emp.calcularSalarioBruto());
         assertEquals(0.0, emp.calcularBeneficios(),
@@ -78,7 +77,7 @@ public class NominaServiceTest {
     public void testControlDefensivoLanzaExcepcion() {
         // Intento de instanciación inválida con horas negativas
         assertThrows(DatoNegativoException.class, () -> {
-            new EmpleadoPorHoras(6, "Error Test", LocalDate.now(), 15000.0, -10, false);
+            new empleado_porhoras(6, "Error Test", LocalDate.now(), -10, 15000.0, false);
         }, "El sistema permitió horas negativas sin disparar la excepción especializada.");
     }
 }
